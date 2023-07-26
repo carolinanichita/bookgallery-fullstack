@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
+
+/*.cards {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(4, 1fr);*/
+/*    gap: 20px;*/
+/*}*/
+
+/*.no-found {*/
+/*    text-align: center;*/
+/*}*/
+
+/*@media only screen and (max-width: 1000px) {*/
+/*    .cards {*/
+/*        grid-template-columns: repeat(3, 1fr);*/
+/*    }*/
+/*}*/
+
+/*@media only screen and (max-width: 600px) {*/
+/*    .cards {*/
+/*        grid-template-columns: 1fr;*/
+/*    }*/
+/*}*/

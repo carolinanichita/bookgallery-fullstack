@@ -1,0 +1,9 @@
+cn/bookstore/BookStoreApplication.class
+cn/bookstore/BookListDTO.class
+cn/bookstore/BookService.class
+cn/bookstore/FavoriteBooksRepository.class
+cn/bookstore/BookRepository.class
+cn/bookstore/BookController.class
+cn/bookstore/CorsConfiguration.class
+cn/bookstore/Book.class
+cn/bookstore/BookDTO.class
