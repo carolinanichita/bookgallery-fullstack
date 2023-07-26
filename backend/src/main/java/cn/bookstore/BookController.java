@@ -11,7 +11,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
-    BookService service;
+    private final BookService service;
 
     public BookController(@Autowired BookService service) {
         this.service = service;
@@ -19,28 +19,28 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllbooks(){
+    public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> books = service.getAllBooks();
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("location", "/api/books/");
-        responseHeaders.add("content-type", "application/json");
-        return ResponseEntity.ok().body(books);
+        responseHeaders.add(HttpHeaders.LOCATION, "/api/books/");
+        responseHeaders.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        return ResponseEntity.ok().headers(responseHeaders).body(books);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable UUID id) {
         Book book = service.getBookById(id);
         if (book == null) {
-            ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         }
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("location", "/api/books/" + book.getId());
-        responseHeaders.add("content-type", "application/json");
+        responseHeaders.add(HttpHeaders.LOCATION, "/api/books/" + book.getId());
+        responseHeaders.add(HttpHeaders.CONTENT_TYPE, "application/json");
         return ResponseEntity.ok().headers(responseHeaders).body(book);
     }
 
     @DeleteMapping("/{id}")
- public ResponseEntity<Book> deleteBook(@PathVariable UUID id) {
+    public ResponseEntity<Book> deleteBook(@PathVariable UUID id) {
         boolean deleted = service.removeBook(id);
 
         if (deleted) {
@@ -51,23 +51,21 @@ public class BookController {
     }
 
     @PostMapping("/{id}/favorites")
-    public ResponseEntity<String> addBookToFavorites(@PathVariable("id") UUID bookId)
-    {
+    public ResponseEntity<String> addBookToFavorites(@PathVariable("id") UUID bookId) {
         service.addBookToFavorites(bookId);
         return ResponseEntity.ok("Book added to favorites");
     }
 
-    @GetMapping
-    @RequestMapping("/favorites")
-    public ResponseEntity<List<Book>> getAllFavoriteBooks(){
+    @GetMapping("/favorites")
+    public ResponseEntity<List<Book>> getAllFavoriteBooks() {
         List<Book> books = service.getAllFavoriteBooks();
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("location", "/api/books/favorites");
-        responseHeaders.add("content-type", "application/json");
-        return ResponseEntity.ok().body(books);
+        responseHeaders.add(HttpHeaders.LOCATION, "/api/books/favorites");
+        responseHeaders.add(HttpHeaders.CONTENT_TYPE, "application/json");
+        return ResponseEntity.ok().headers(responseHeaders).body(books);
     }
 
-    @DeleteMapping(path="/favorites/delete/{bookId}")
+    @DeleteMapping("/favorites/delete/{bookId}")
     public ResponseEntity<String> deleteBookById(@PathVariable UUID bookId) {
         service.deleteBookFromFavorite(bookId);
         return ResponseEntity.ok("Book deleted successfully");

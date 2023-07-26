@@ -37,21 +37,19 @@ public class BookService {
                 node.get("items").forEach(item -> {
                     Book book = new Book();
                     item.get("volumeInfo").ifPresent(volumeInfo -> {
-                        volumeInfo.get("title").ifPresent(title -> book.setTitle(title.asText()));
-                        volumeInfo.get("imageLinks").ifPresent(imageLinks -> {
-                            imageLinks.get("thumbnail").ifPresent(thumbnail -> book.setImageURL(thumbnail.asText()));
-                        });
-                        volumeInfo.get("authors").ifPresent(authors -> {
-                            List<String> authorList = authors.elements().stream().map(JsonNode::asText).collect(Collectors.toList());
-                            book.setAuthors(authorList);
-                        });
-                        volumeInfo.get("description").ifPresent(description -> book.setDescription(description.asText()));
+                        book.setTitle(volumeInfo.get("title").map(JsonNode::asText).orElse(null));
+                        book.setImageURL(volumeInfo.get("imageLinks").map(imageLinks -> imageLinks.get("thumbnail").asText()).orElse(null));
+
+                        List<String> authorList = volumeInfo.get("authors").map(authors -> authors.elements().stream().map(JsonNode::asText).collect(Collectors.toList())).orElse(Collections.emptyList());
+                        book.setAuthors(authorList);
+
+                        book.setDescription(volumeInfo.get("description").map(JsonNode::asText).orElse(null));
                     });
+
                     item.get("saleInfo").ifPresent(saleInfo -> {
-                        saleInfo.get("listPrice").ifPresent(listPrice -> {
-                            listPrice.get("amount").ifPresent(amount -> book.setPrice(amount.asDouble()));
-                        });
+                        book.setPrice(saleInfo.get("listPrice").map(listPrice -> listPrice.get("amount").asDouble()).orElse(0.0));
                     });
+
                     bookRepository.addBook(book);
                 });
             }
@@ -59,6 +57,7 @@ public class BookService {
             throw new RuntimeException(e);
         }
     }
+
 
     public Book getBookById(UUID id) {
         return bookRepository.getBookById(id);

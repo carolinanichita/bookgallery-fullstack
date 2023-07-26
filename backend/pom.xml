@@ -37,12 +37,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-
-		<!-- Apache HttpClient (for making HTTP requests) -->
-<!--		<dependency>-->
-<!--			<groupId>org.apache.httpcomponents</groupId>-->
-<!--			<artifactId>httpclient</artifactId>-->
-<!--		</dependency>-->
 	</dependencies>
 
 	<build>
